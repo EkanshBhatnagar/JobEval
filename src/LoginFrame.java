@@ -40,6 +40,7 @@ public class LoginFrame extends javax.swing.JFrame {
         jLabel4.setText("jLabel4");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         jLabel1.setText("Job Evaluation Software");
 
@@ -64,23 +65,24 @@ public class LoginFrame extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(63, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(44, 44, 44)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel3)
                             .addComponent(jLabel2))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(UsernameField, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
-                                .addComponent(passwordField))
-                            .addComponent(SubmitButton)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(UsernameField)
+                            .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(11, 11, 11)
+                                .addComponent(SubmitButton))))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(90, 90, 90)
+                        .addGap(46, 46, 46)
                         .addComponent(jLabel1)))
-                .addContainerGap(80, Short.MAX_VALUE))
+                .addGap(61, 61, 61))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -101,18 +103,25 @@ public class LoginFrame extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void SubmitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SubmitButtonActionPerformed
         String usernameString;
+        boolean wrongusername = false;
+        boolean wrongpassword = false;
         String password = new String (passwordField.getPassword());
         usernameString = UsernameField.getText();
+        
+        
         if(usernameString.equals("admin")){
             if(password.equals("password")){
                 new AdminFrame().setVisible(true);
                 this.dispose();
+            } else {
+                wrongpassword = true;
             }
-        }
+        } else {
         try {
             String url = "jdbc:sqlite:jobeval.db";
             Connection conn = DriverManager.getConnection(url);
@@ -154,6 +163,12 @@ public class LoginFrame extends javax.swing.JFrame {
             // TODO add your handling code here:
         } catch (SQLException ex) {
             Logger.getLogger(LoginFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        }
+        if(wrongpassword){
+            JOptionPane.showMessageDialog(null,"Password or Username is wrong!","Alert",JOptionPane.WARNING_MESSAGE);
+                UsernameField.setText("");
+                passwordField.setText("");
         }
     }//GEN-LAST:event_SubmitButtonActionPerformed
 
